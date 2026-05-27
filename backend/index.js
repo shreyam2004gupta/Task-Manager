@@ -2,6 +2,7 @@ import express from "express"
 import cors  from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authRoutes from "./routes/auth.route.js"
 import dns from 'dns';
 dns.setServers(["1.1.1.1","8.8.8.8"]);
 
@@ -27,3 +28,5 @@ app.use(express.json())
 app.listen(3000,()=>{
     console.log("server is running");
 })
+
+app.use("/api/auth",authRoutes)
