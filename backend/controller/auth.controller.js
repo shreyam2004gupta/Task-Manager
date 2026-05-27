@@ -25,9 +25,9 @@ export const signup =async(req,res) => {
         name,email,password:hashPassword,profileImageUrl,role
     })
     try{
-        await newUser.save()
+        await newuser.save()
         res.json("Signup successful")
     } catch (error){
-     res.status(500).json({message:error.message()})
+     res.status(500).json({message: error?.message || String(error)})
     }
 }
