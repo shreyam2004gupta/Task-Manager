@@ -3,6 +3,7 @@ import cors  from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.route.js"
+import cookieParser from "cookie-parser"
 import dns from 'dns';
 dns.setServers(["1.1.1.1","8.8.8.8"]);
 
@@ -24,6 +25,8 @@ app.use(cors({
     allowedHeaders:["Content-Type","Authorization"],
 }))
 app.use(express.json())
+
+app.use(cookieParser())
 
 app.listen(3000,()=>{
     console.log("server is running");
