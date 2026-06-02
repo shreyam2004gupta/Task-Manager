@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from "./pages/auth/Login"
 import Signup from './pages/auth/Signup'
 import Dashboard from "./pages/admin/Dashboard"
@@ -16,21 +16,21 @@ const App = () => {
     <div>
       <BrowserRouter>
       <Routes>
+        <Route index element={<Login />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/sign-up" element={<Signup/>}/>
 
-
-        <Route element={<PrivateRoute allowedRoles={["admin"]}/>}>
-        <Route path='/admin/dashboard' element={<Dashboard/>}/>
-        <Route path='/admin/tasks' element={<ManageTask/>}/>
-        <Route path='/admin/users' element={<ManageUsers/>}/>
-        <Route path='/admin/create-task' element={<CreateTask/>}/>
+        <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+          <Route path='/admin/dashboard' element={<Dashboard/>}/>
+          <Route path='/admin/tasks' element={<ManageTask/>}/>
+          <Route path='/admin/users' element={<ManageUsers/>}/>
+          <Route path='/admin/create-task' element={<CreateTask/>}/>
         </Route>
-        <Route element={<PrivateRoute allowedRoles={["user"]}/>}>
-        <Route path="/user/dashboard" element={<UserDashboard/>}/>
-        <Route path="/user/tasks" element={<Mytasks/>}/>
-        <Route path="/user/task-details/:id" element={<TaskDetails/>}/>
-        
+
+        <Route element={<PrivateRoute allowedRoles={["user"]} />}>
+          <Route path="/user/dashboard" element={<UserDashboard/>}/>
+          <Route path="/user/tasks" element={<Mytasks/>}/>
+          <Route path="/user/task-details/:id" element={<TaskDetails/>}/>
         </Route>
       </Routes>
       </BrowserRouter>
