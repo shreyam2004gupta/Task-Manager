@@ -50,7 +50,7 @@ export const signin = async(req,res,next)=> {
                 return next(errorHandler(400, "wrong password"))
             }
             const token = jwt.sign(
-                { id: validUser._id},
+                { id: validUser._id ,role: validUser.role},
                 process.env.JWT_SECRET,
             )
 

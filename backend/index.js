@@ -3,6 +3,7 @@ import cors  from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.route.js"
+import userRoutes from "./routes/user.route.js"
 import cookieParser from "cookie-parser"
 import dns from 'dns';
 dns.setServers(["1.1.1.1","8.8.8.8"]);
@@ -33,6 +34,8 @@ app.listen(3000,()=>{
 })
 
 app.use("/api/auth",authRoutes)
+
+app.use("/api/user",userRoutes)
 
 app.use((err,req,res,next)=>{
    const statusCode = err.statusCode || 500
