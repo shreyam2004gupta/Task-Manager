@@ -1,6 +1,6 @@
 import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
-import { errorHandler } from "../error.js"
+import { errorHandler } from "../utils/error.js"
 import jwt from "jsonwebtoken"
 
 export const signup =async(req,res,next) => {
@@ -59,5 +59,19 @@ export const signin = async(req,res,next)=> {
            res.status(200).cookie("access_token",token,{httpOnly:true}).json(rest)
     }catch(error){
         next(errorHandler(500, error?.message || String(error)))
+    }
+}
+
+export const userprofile = async (req,res,next)=>{
+    try {
+        const user = await User.findById(req.user.id)
+
+        if(!user){
+            return next(errorHandler(404,"user not found"))
+        }
+       const {password:pass, ...rest}=user._doc
+       res.status(200).json(rest)
+    }catch(error){
+        next(error)
     }
 }
