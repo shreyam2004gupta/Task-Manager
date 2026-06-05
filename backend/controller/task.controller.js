@@ -105,3 +105,31 @@ export const gettaskById = async (req,res,next)=>{
         next(error)
     }
 }
+
+export const updateTask = async (req,res,next)=>{
+    try{
+        const task = await Task.findById(req.params.id)
+        if(!task){
+            return next(errorHandler(404,"Task not found !"))
+        }
+        task.title = req.body.title || task.title
+        task.description = req.body.description || task.description
+        task.priority = req.body.priority || task.priority
+        task.duedate = req.duedate || task.duedate
+        task.taskChecklist = req.body.taskChecklist || task.taskChecklist
+        task.attachements = req.body.attchements || task.attchements
+
+        if(req.body.assignedTo){
+            if(!Array.isArray(req.body.assignedTo)){
+                return next(
+                    errorHandler(400,"assignedTo must be an Array of user IDs")
+                )
+            }
+            task.assignedTo = req.body.assignedTo
+        }
+        const updateTask = await task.save()
+        return res.status(200).json({updateTask,message:"Task updated successfully !!"})
+    }catch(error){
+        next(error)
+    }
+}
