@@ -169,3 +169,33 @@ export const updateTaskStatus = async(req,res,next)=>{
         next(error)
     }
 }
+
+export const updateTaskChecklist = async(req,res,next)=>{
+    try{
+       const {todoChecklist}=req.body
+       const task = await Task.findById(req.params.id)
+       if(!task){
+        return next(errorhandler(404, "Task not found !"))
+       }
+       if(!task.assignedTo.includes(req.user.id) && req.user.role !=="admin"){
+        return next(errorHandler(403 ,"Not authorized to update checklist"))
+       }
+       task.todoChecklist = todoChecklist
+
+       const comletedCount =task.todoChecklist.filter((item)=>item.completed).length
+       const totalItems = task.todoChecklist.length
+       task.progress = totalItems >0 ? Math.round((compltedCount / totalItems)*100):0
+       if(task.progress === 100){
+        task.status = "Completed"
+       }else if(task.progress >0){
+        task.status ="In Progress"
+       }else{
+        task.status = "Pending"
+       }
+       await task.save()
+       const updatedTask = await Task.findById(req.params.id).populate("assignedTo","name email profileImageUrl")
+       res.status(200).json({message:"Task checklist updated",task:updatedTask})
+    }catch(error){
+        next(error)
+    }
+}
