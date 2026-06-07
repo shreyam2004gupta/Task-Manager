@@ -1,6 +1,6 @@
 import express from "express"
-import { adminOnly, verifyToken } from "../utils/verifyUser"
-import { exportTaskReport, expportUsersReport } from "../controller/report.controller"
+import { adminOnly, verifyToken } from "../utils/verifyUser.js"
+import { exportTaskReport, expportUsersReport } from "../controller/report.controller.js"
 
 const router = express.Router()
 
