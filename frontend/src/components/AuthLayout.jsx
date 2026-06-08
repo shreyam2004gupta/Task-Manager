@@ -4,7 +4,7 @@ import heroImg from '../assets/hero.png'
 const AuthLayout = ({ children }) => {
   return (
     <div className='flex h-screen overflow-hidden'>
-      <div className='w-full md:w-1/ overflow-y-auto'>
+      <div className='w-full md:w-1/ overflow-y-auto my-auto'>
         <div className='min-h-full flex flex-col px-12 pt-8 pb-12'>
           <div className='flex items-center justify-center'>{children}</div>
         </div>
