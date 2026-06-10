@@ -18,7 +18,7 @@ const App = () => {
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login/>}/>
-        <Route path="/sign-up" element={<Signup/>}/>
+        <Route path="/signup" element={<Signup/>}/>
 
         <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
           <Route path='/admin/dashboard' element={<Dashboard/>}/>
