@@ -3,15 +3,18 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import React, { useState } from 'react'
 import AuthLayout from '../../components/AuthLayout.jsx'
-import {Link} from "react-router-dom"
+import {Link, Navigate, useNavigate} from "react-router-dom"
 import { validateEmail } from "../../utils/helper.js";
+import axios from "axios";
+import axiosInstance from "../../utils/axiosinstance.js";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email,setEmail]=useState("")
   const[password ,setPassword]=useState("")
   const[showPassword,setShowPassword]=useState(false)
   const[error,setError]=useState(null)
-  const handleSubmit =(e)=>{
+  const handleSubmit =async(e)=>{
     e.preventDefault()
 
     if(!validateEmail(email)){
@@ -23,6 +26,24 @@ const Login = () => {
       return
     }
     setError(null)
+
+   try{
+    const response = await axiosInstance.post("/auth/sign-in",{
+      email,
+      password,
+    })
+    if(response.data.role === "admin"){
+      navigate("/admin/dashboard")
+    }else{
+      navigate("/user/dashboard")
+    }
+  }catch(error){
+    if(error.response  && error.response.data.message){
+      setError(error.response.data.message)
+    }else{
+      setError("Something went wrong . Please try again!")
+    }
+  }
 
   }
   return (
@@ -40,7 +61,7 @@ const Login = () => {
               <h1 className="text-2xl font-bold text-gray-800 mt-4 uppercase">Task Manager</h1>
               <p className="text-gray-600 mt-1">Manage your projects efficiently</p>
             </div>
-            <form onSubmit={handleSubmit} classNmae="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label html="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                 <input id="email" type="email" value={email} onChange={(e)=>setEmail(e.target.value)}
@@ -62,10 +83,12 @@ const Login = () => {
                 required
                 />
 
-                <botton type="button" className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
                 onClick={()=>setShowPassword(!showPassword)}>
                   {showPassword ? <FaEyeSlash />:<FaEye/>}
-                </botton>{" "}
+                </button>{" "}
+                
+
                 
                 </div>
               </div>
