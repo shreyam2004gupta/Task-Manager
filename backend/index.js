@@ -24,19 +24,19 @@ const app = express()
 
 app.use(cors({
     origin : process.env.FRONT_END_URL || "http://localhost:5173",
-    method:["GET","POST","PUT","DELETE"],
-    allowedHeaders:["Content-Type","Authorization"],
+    methods:["GET","POST","PUT","DELETE"],
+    allowedHeaders:["Content-Type","Authorization","X-Requested-With"],
     credentials:true,
 }))
 app.use(express.json())
 
 app.use(cookieParser())
 
-app.listen(3000,()=>{
-    console.log("server is running");
-})
+app.use("/api/auth", authRoutes)
 
-app.use("/api/auth",authRoutes)
+app.use((req,res,next)=>{
+  res.status(404).json({success:false,message:`Cannot ${req.method} ${req.originalUrl}`})
+})
 
 app.use("/api/user",userRoutes)
 
@@ -53,4 +53,8 @@ app.use((err,req,res,next)=>{
     statusCode,
     message,
    })
+})
+
+app.listen(3000,()=>{
+    console.log("server is running");
 })
