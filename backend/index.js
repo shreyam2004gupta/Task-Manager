@@ -34,15 +34,18 @@ app.use(cookieParser())
 
 app.use("/api/auth", authRoutes)
 
-app.use((req,res,next)=>{
-  res.status(404).json({success:false,message:`Cannot ${req.method} ${req.originalUrl}`})
-})
+app.use("/api/user", userRoutes)
 
-app.use("/api/user",userRoutes)
+app.use("/api/task", taskRoutes)
 
-app.use("/api/task",taskRoutes)
+app.use("/api/reports", reportRoutes)
 
-app.use("/api/reports",reportRoutes)
+app.use((req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: `Cannot ${req.method} ${req.originalUrl}`,
+  });
+});
 
 app.use((err,req,res,next)=>{
    const statusCode = err.statusCode || 500
