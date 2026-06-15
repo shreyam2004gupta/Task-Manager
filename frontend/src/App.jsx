@@ -43,7 +43,7 @@ const App = () => {
 export default App
 
 const Root = () => {
-  const { currentUser } = useSelector((state) => state.user)
+  const { currentUser ,loading} = useSelector((state) => state.user)
 
   if (!currentUser) {
     return <Navigate to={"/login"}/>

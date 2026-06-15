@@ -131,9 +131,12 @@ const Login = () => {
 
               {error && <p className="text-red-500 text-sm">{error}</p>}
 
-              {loading ? (
-                <span className="animate-pulse">Loading...</span>
-              ) : (
+              {
+              // loading ? (
+              //   <div className="w-full flex justify-center py-3">
+              //     <span className="animate-pulse">Loading...</span>
+              //   </div>
+              // ) : (
                 <div>
                   <button
                     type="submit"
@@ -143,7 +146,8 @@ const Login = () => {
                     Login
                   </button>
                 </div>
-              )}
+              // )
+              }
             </form>
 
             <div className="mt-6 text-center text-sm">

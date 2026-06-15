@@ -3,11 +3,14 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import React, { useState } from 'react';
 import AuthLayout from '../../components/AuthLayout.jsx'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { validateEmail } from "../../utils/helper.js";
 import ProfilePhotoSelector from "../../components/ProfilePhotoSelector.jsx";
+import axiosInstance from "../../utils/axiosinstance.js";
+import uploadImage from "../../utils/uploadImage.js";
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [email,setEmail]=useState("")
   const[fullName, setFullName]=useState("")
   const[password ,setPassword]=useState("")
@@ -16,8 +19,9 @@ const Signup = () => {
   const [profilePic,setProfilePic]= useState(null)
   const [adminInviteToken,setAdminInviteToken]=useState("")
   const [showAdminInviteToken,setShowAdminInviteToken]=useState(false)
-  const handleSubmit =(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    let profileImageUrl =""
      if(!fullName){
       setError("Enter full name")
       return
@@ -31,7 +35,27 @@ const Signup = () => {
       return
     }
     setError(null)
-
+     try{
+      if(profilePic){
+        const imageUploadRes = await uploadImage(profilePic)
+        profileImageUrl = imageUploadRes.imageUrl || ""
+      }
+      const response = await axiosInstance.post("/auth/sign-up", {
+        name: fullName,
+        email,
+        password,
+        adminJoinCode : adminInviteToken,
+      })
+      if(response.data){
+        navigate("/login")
+      }
+     }catch(error){
+      if(error.response && error.response.data.message){
+        setError(error.response.data.message)
+      }else{
+        setError("Something went wrong. Please try again!")
+      }
+     }
   }
   return (
     <AuthLayout>
