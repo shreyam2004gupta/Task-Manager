@@ -9,14 +9,26 @@ const storage = multer.diskStorage({
     },
 })
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]
+    // Accept common image mimetypes.
+    // Some browsers may report variants like image/jpg or image/webp.
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp",
+        "image/gif",
+        "image/svg+xml",
+        "image/avif",
+        "image/bmp",
+        "image/tiff",
+    ];
 
     if (allowedTypes.includes(file.mimetype)) {
         return cb(null, true)
     }
 
-    return cb(new Error("Invalid file type"), false)
+    return cb(new Error(`Invalid file type: ${file.mimetype}`), false)
 }
-const upload = multer({storage , fileFilter})
+const upload = multer({ storage, fileFilter })
 
 export default upload

@@ -7,10 +7,15 @@ import userRoutes from "./routes/user.route.js"
 import taskRoutes from "./routes/task.route.js"
 import reportRoutes from "./routes/report.route.js"
 import cookieParser from "cookie-parser"
+import path from "path"
 import dns from 'dns';
+import { fileURLToPath } from "url";
 dns.setServers(["1.1.1.1","8.8.8.8"]);
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -39,6 +44,8 @@ app.use("/api/user", userRoutes)
 app.use("/api/task", taskRoutes)
 
 app.use("/api/reports", reportRoutes)
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 app.use((req, res, next) => {
   res.status(404).json({
