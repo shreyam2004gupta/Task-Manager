@@ -1,9 +1,9 @@
 import axiosInstance from "./axiosinstance";
 
 const uploadImage = async(imageFile)=>{
-    const formData = new formData()
+const formData = new FormData()
 
-    formData.append("iamge",imageFile)
+    formData.append("image",imageFile)
     try{
      const response = await axiosInstance.post("/auth/upload-image",formData,{
         headers:{

@@ -44,17 +44,20 @@ const Signup = () => {
         name: fullName,
         email,
         password,
-        adminJoinCode : adminInviteToken,
+        profileImageUrl,
+        adminJoinCode: adminInviteToken,
       })
       if(response.data){
         navigate("/login")
       }
      }catch(error){
-      if(error.response && error.response.data.message){
-        setError(error.response.data.message)
-      }else{
-        setError("Something went wrong. Please try again!")
-      }
+      const backendMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.response?.data?.msg ||
+        error?.message;
+
+      setError(backendMessage || "Something went wrong. Please try again!")
      }
   }
   return (
