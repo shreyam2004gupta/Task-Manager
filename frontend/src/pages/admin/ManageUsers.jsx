@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/axiosinstance"
 import DashboardLayout from "../../components/DashboardLayout"
 import { FaFileAlt } from "react-icons/fa"
 import UserCard from "../../components/UserCard"
-import toast from "react-hot-toast"
+
 
 const ManageUsers = () => {
   const [allUsers, setAllUsers] = useState([])
@@ -41,7 +41,7 @@ const ManageUsers = () => {
       window.URL.revokeObjectURL(url)
     } catch (error) {
       console.log("Error downloading user-details report: ", error)
-      toast.error("Error downloading user-details report. Please try again!")
+
     }
   }
 

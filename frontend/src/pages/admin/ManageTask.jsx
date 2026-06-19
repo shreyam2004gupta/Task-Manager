@@ -5,7 +5,7 @@ import axiosInstance from "../../utils/axiosinstance"
 import TaskStatusTabs from "../../components/TaskStatusTabs"
 import { FaFileLines } from "react-icons/fa6"
 import TaskCard from "../../components/TaskCard"
-import toast from "react-hot-toast"
+const toast = { error: () => {}, success: () => {} }
 
 const ManageTasks = () => {
   const [allTasks, setAllTasks] = useState([])
@@ -68,7 +68,7 @@ const ManageTasks = () => {
       window.URL.revokeObjectURL(url)
     } catch (error) {
       console.log("Error downloading task-details report: ", error)
-      toast.error("Error downloading task-details report. Please try again!")
+toast.error("Error downloading task-details report. Please try again!")
     }
   }
 

@@ -13,7 +13,6 @@ import {
 } from "recharts"
 
 const CustomBarChart = ({ data }) => {
-  // Fuction to alternate colors
   const getBarColor = (entry) => {
     switch (entry?.priority) {
       case "Low":
