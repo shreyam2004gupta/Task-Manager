@@ -28,11 +28,17 @@ mongoose.connect(process.env.MONGODB_URI)
 const app = express()
 
 app.use(cors({
-    origin : process.env.FRONT_END_URL || "http://localhost:5173",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      // For local dev, reflect the exact origin so cookies work reliably
+      return callback(null, true);
+    },
     methods:["GET","POST","PUT","DELETE"],
     allowedHeaders:["Content-Type","Authorization","X-Requested-With"],
     credentials:true,
 }))
+
 app.use(express.json())
 
 app.use(cookieParser())

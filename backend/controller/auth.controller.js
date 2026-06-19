@@ -66,6 +66,10 @@ export const signin = async(req,res,next)=> {
                secure: isProd,
              })
              .json(rest)
+
+           // Debug: confirm token cookie set
+           console.log("Signin success for:", validUser.email, "role:", validUser.role)
+
     }catch(error){
         next(errorHandler(500, error?.message || String(error)))
     }

@@ -1,16 +1,17 @@
-import React, { useState } from "react"
-import AuthLayout from "../../components/AuthLayout"
-import { FaEyeSlash, FaPeopleGroup } from "react-icons/fa6"
-import { FaEye } from "react-icons/fa"
-import { Link, useNavigate } from "react-router-dom"
-import { validateEmail } from "../../utils/helper"
-import axiosInstance from "../../utils/axiosinstance"
-import { useDispatch, useSelector } from "react-redux"
-import { 
+import React, { useState } from "react";
+import AuthLayout from "../../components/AuthLayout";
+import { FaEyeSlash, FaPeopleGroup } from "react-icons/fa6";
+import { FaEye } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosinstance";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
   signInFailure,
   signInStart,
-  signInSucces,
-} from "../../redux/userSlice"
+  signInSuccess,
+} from "../../redux/userSlice";
 
 const Login = () => {
   const navigate = useNavigate()
@@ -63,13 +64,22 @@ const Login = () => {
         navigate("/user/dashboard")
       }
     } catch (error) {
-      if (error.response && error.response.data.message) {
+      // Temporary debug to identify why login fails
+      // eslint-disable-next-line no-console
+      console.log("Login error:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      })
+
+      if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message)
         dispatch(signInFailure(error.response.data.message))
       } else {
         setError("Something went wrong. Please try again!")
         dispatch(signInFailure("Something went wrong. Please try again!"))
       }
+
     }
   }
 
