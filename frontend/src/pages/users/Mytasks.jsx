@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import DashboardLayout from "../../components/DashboardLayout"
 import { useNavigate } from "react-router-dom"
-import axiosInstance from "../../utils/axioInstance"
+import axiosInstance from "../../utils/axiosinstance"
 import TaskStatusTabs from "../../components/TaskStatusTabs"
 import { FaFileLines } from "react-icons/fa6"
 import TaskCard from "../../components/TaskCard"
